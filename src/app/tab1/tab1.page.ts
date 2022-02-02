@@ -9,4 +9,7 @@ export class Tab1Page {
 
   constructor() {}
 
+  hola(){
+    console.log('hola');
+  }
 }
