@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
   async signIn(){
     console.log(this.email, this.password);
 
-    if(this.email === 'admin' && this.password === 'password123'){
+    if(this.email === 'admin' && this.password === '123'){
       this.redirect('/home/tab1');
     } else {
       await this.presentAlert('Error', '', 'User not found');
