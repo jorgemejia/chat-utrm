@@ -9,41 +9,24 @@
 <ion-content [fullscreen]="true">
 
   <div class="container">
-    <div *ngFor="let msg of messageList" >
-      <div class="message left" *ngIf="msg.sender else meText">
-        <img class="user-img" [src]="msg.sender.avatarURL" alt="" src="">
-        <div class="msg-detail">
-          <div class="msg-info">
-            <p>
-              {{msg.sender.name}}
+    <div class="imessage">
+      <div *ngFor="let msg of messageList" >
+        <div *ngIf="msg.sender else meText">
+          <p class="from-them">
+            {{msg.text}}
+          </p>
+        </div>
+
+        <ng-template #meText>
+          <div class="imessage-left">
+            <p class="from-me">
+              {{msg.text}}
             </p>
           </div>
-          <div class="msg-content">
-            <span class="triangle"></span>
-            <p class="line-breaker ">{{msg.text}}</p>
-          </div>
-        </div>
+
+        </ng-template>
       </div>
-
-      <ng-template #meText>
-        <div class="message right">
-          <img class="user-img" [src]="msg.me.avatarURL" alt="" src="">
-          <div class="msg-detail">
-            <div class="msg-info">
-              <p>
-                {{msg.me.name}}
-              </p>
-            </div>
-            <div class="msg-content">
-              <span class="triangle"></span>
-              <p class="line-breaker ">{{msg.text}}</p>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-
     </div>
-
   </div>
 </ion-content>
 
