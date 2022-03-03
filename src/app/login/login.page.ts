@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { SocketServiceService } from '../services/socket-service.service';
+import { UserService } from '../services/user.service';
+import { GeneralService } from '../services/general.service';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +12,16 @@ import { AlertController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  public email: string;
+  public username: string;
   public password: string;
 
-  constructor(private router: Router, public alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    public alertController: AlertController,
+    private socketService: SocketServiceService,
+    public generalService: GeneralService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
   }
@@ -22,27 +31,25 @@ export class LoginPage implements OnInit {
   }
 
   async signIn(){
-    console.log(this.email, this.password);
+    console.log(this.username, this.password);
 
-    if(this.email === 'admin' && this.password === '123'){
-      this.redirect('/home/tab1');
+    if(this.username && this.password ) {
+      const user = {
+        condition: {
+          username: this.username,
+          password: this.password
+        }
+      };
+      const query: any = await this.userService.login(user);
+      console.log(query);
+      if(query && query.ok){
+        this.socketService.login(query.user);
+        this.redirect('/home/tab1');
+      } else {
+        await this.generalService.presentAlert('Error', '', 'User not found');
+      }
     } else {
-      await this.presentAlert('Error', '', 'User not found');
+      await this.generalService.presentAlert('Error', '', 'User not found');
     }
-  }
-
-  async presentAlert(h: string, subtitle: string, msn: string) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: h,
-      subHeader: subtitle,
-      message: msn,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
   }
 }
