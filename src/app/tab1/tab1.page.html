@@ -16,14 +16,17 @@
   </ion-header>
 
   <ion-item *ngFor="let item of onlineUsers">
-    <ion-avatar slot="start">
-      <img src="{{item.avatar}}" />
-    </ion-avatar>
-    <ion-label>
-      <h2>{{item.username}}</h2>
-<!--      <h3>I'm a big deal</h3>-->
-<!--      <p>Listen, I've had a pretty messed up day...</p>-->
-    </ion-label>
+    <ng-template *ngIf="item.id != user.id">
+      <ion-avatar slot="start">
+        <img src="{{item.avatar}}" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.username}}</h2>
+        <!--      <h3>I'm a big deal</h3>-->
+        <!--      <p>Listen, I've had a pretty messed up day...</p>-->
+      </ion-label>
+    </ng-template>
+
   </ion-item>
 
 <!--  <ion-item>-->

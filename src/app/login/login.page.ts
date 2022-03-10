@@ -44,7 +44,8 @@ export class LoginPage implements OnInit {
       console.log(query);
       if(query && query.ok){
         this.socketService.login(query.user);
-        this.redirect('/home/tab1');
+        await this.router.navigate(['/home/tab1'], { queryParams: query.user });
+        //this.redirect('/home/tab1');
       } else {
         await this.generalService.presentAlert('Error', '', 'User not found');
       }
