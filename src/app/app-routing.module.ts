@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { UserServiceGuard } from './guards/user-service.guard';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    path: '',
+    loadChildren: () => import('./homepage/homepage.module').then( m => m.HomepagePageModule)
   },
   {
     path: 'login',
@@ -20,7 +21,13 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./homepage/homepage.module').then( m => m.HomepagePageModule)
+    canActivate: [UserServiceGuard],
+    children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+      }
+    ]
   }
 
 ];

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { UserServiceService } from 'src/app/services/user-service.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,11 @@ export class LoginPage implements OnInit {
   public email: string;
   public password: string;
 
-  constructor(private router: Router, public alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    public alertController: AlertController,
+    private userService: UserServiceService
+    ) { }
 
   ngOnInit() {
   }
@@ -24,7 +29,8 @@ export class LoginPage implements OnInit {
   async signIn(){
     console.log(this.email, this.password);
 
-    if(this.email === 'admin' && this.password === '123'){
+    if(this.email === 'admin' && this.password === '123') {
+      localStorage.setItem(this.userService.JWToken, 'token123123123jsjdfsdfskdjflskdjf');
       this.redirect('/home/tab1');
     } else {
       await this.presentAlert('Error', '', 'User not found');
