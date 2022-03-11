@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { UserServiceService } from 'src/app/services/user-service.service';
+import { SocketServiceService } from '../services/socket-service.service';
+import { UserService } from '../services/user.service';
+import { GeneralService } from '../services/general.service';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +12,17 @@ import { UserServiceService } from 'src/app/services/user-service.service';
 })
 export class LoginPage implements OnInit {
 
-  public email: string;
+  public username: string;
   public password: string;
 
   constructor(
     private router: Router,
     public alertController: AlertController,
-    private userService: UserServiceService
-    ) { }
+    private socketService: SocketServiceService,
+    public generalService: GeneralService,
+    private userService: UserService
+  ) { }
+
 
   ngOnInit() {
   }
@@ -27,28 +32,27 @@ export class LoginPage implements OnInit {
   }
 
   async signIn(){
-    console.log(this.email, this.password);
+    console.log(this.username, this.password);
 
-    if(this.email === 'admin' && this.password === '123') {
-      localStorage.setItem(this.userService.JWToken, 'token123123123jsjdfsdfskdjflskdjf');
-      this.redirect('/home/tab1');
+    if(this.username && this.password ) {
+      const user = {
+        condition: {
+          username: this.username,
+          password: this.password
+        }
+      };
+      const query: any = await this.userService.login(user);
+      console.log(query);
+      if(query && query.ok){
+        this.socketService.login(query.user);
+        await this.router.navigate(['/home/tab1'], { queryParams: query.user });
+        //this.redirect('/home/tab1');
+      } else {
+        await this.generalService.presentAlert('Error', '', 'User not found');
+      }
+
     } else {
-      await this.presentAlert('Error', '', 'User not found');
+      await this.generalService.presentAlert('Error', '', 'User not found');
     }
-  }
-
-  async presentAlert(h: string, subtitle: string, msn: string) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: h,
-      subHeader: subtitle,
-      message: msn,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
   }
 }
