@@ -23,6 +23,7 @@ export class LoginPage implements OnInit {
     private userService: UserService
   ) { }
 
+
   ngOnInit() {
   }
 
@@ -49,6 +50,7 @@ export class LoginPage implements OnInit {
       } else {
         await this.generalService.presentAlert('Error', '', 'User not found');
       }
+
     } else {
       await this.generalService.presentAlert('Error', '', 'User not found');
     }
