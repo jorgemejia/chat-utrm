@@ -9,9 +9,9 @@ import { FormsModule } from '@angular/forms';
 export class Tab2Page {
 
   public messageList = [
-    { sender: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-finn.png', name: 'Finn' }, text: 'Hola' },
-    { sender: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-finn.png', name: 'Finn' }, text: 'Cómo estás ?' },
-    { me: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-han.png', name: 'Han' }, text: 'Bien gracias, y tu ?' },
+    { sender: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-finn.png', name: 'Amigo' }, text: 'Hola' },
+    { sender: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-finn.png', name: 'Amigo' }, text: 'Cómo estás ?' },
+    { me: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-han.png', name: 'Yo' }, text: 'Bien gracias, y tu ?' },
     ];
   public chatMessage: string = '';
   constructor() {
@@ -20,6 +20,10 @@ export class Tab2Page {
 
   sendMessage() {
     console.log(this.chatMessage);
+    this.messageList.push({
+      me: { avatarURL: 'https://ionicframework.com/docs/demos/api/list/avatar-han.png', name: 'Yo' }, text: this.chatMessage
+    });
+    this.chatMessage = '';
     return true;
   }
 
