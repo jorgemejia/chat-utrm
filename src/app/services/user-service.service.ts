@@ -19,6 +19,15 @@ export class UserServiceService {
     }
   }
 
+  getId() {
+    const id = localStorage.getItem('userId');
+    if (id != 'undefined') {
+      return id;
+    } else {
+      return null;
+    }
+  }
+
   logout() {
     localStorage.removeItem(this.JWToken);
   }

@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { SocketServiceService } from '../services/socket-service.service';
 import { UserService } from '../services/user.service';
 import { GeneralService } from '../services/general.service';
+import {UserServiceService} from '../services/user-service.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginPage implements OnInit {
     public alertController: AlertController,
     private socketService: SocketServiceService,
     public generalService: GeneralService,
-    private userService: UserService
+    private userService: UserService,
+    private usrService: UserServiceService
   ) { }
 
 
@@ -44,6 +46,8 @@ export class LoginPage implements OnInit {
       const query: any = await this.userService.login(user);
       console.log(query);
       if(query && query.ok){
+        localStorage.setItem(this.usrService.JWToken, 'token123123123jsjdfsdfskdjflskdjf');
+        localStorage.setItem('userId', query.user.id);
         this.socketService.login(query.user);
         await this.router.navigate(['/home/tab1'], { queryParams: query.user });
         //this.redirect('/home/tab1');
