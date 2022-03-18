@@ -10,6 +10,7 @@ export class SocketServiceService {
 
   public message$: BehaviorSubject<any> = new BehaviorSubject('');
   public onlineUsers$: BehaviorSubject<any> = new BehaviorSubject('');
+  public getNewMessage$: BehaviorSubject<any> = new BehaviorSubject('');
 
   socket = io(environment.url, {});
 
@@ -19,6 +20,10 @@ export class SocketServiceService {
     this.socket.emit('login', user);
   }
 
+  public sendMessage(message) {
+    this.socket.emit('new-message', message);
+  }
+
   public getOnlineUsers() {
     this.socket.on('new-user-online', (users) => {
       this.onlineUsers$.next(users);
@@ -26,12 +31,14 @@ export class SocketServiceService {
     return this.onlineUsers$.asObservable();
   }
 
-  public getNewMessage = () => {
-    this.socket.on('new-user-online', (message) => {
-      this.message$.next(message);
+  public getNewMessage() {
+    this.socket.on('new-message', (message) => {
+      this.getNewMessage$.next(message);
     });
 
-    return this.message$.asObservable();
+    return this.getNewMessage$.asObservable();
   };
+
+
 
 }
