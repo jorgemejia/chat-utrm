@@ -17,7 +17,7 @@
 
     <div *ngFor="let item of onlineUsers">
       <div *ngIf="item.id != userId">
-        <ion-item (click)="navigateToChat()">
+        <ion-item (click)="navigateToChat(item.id)">
           <ion-avatar slot="start">
             <img src="{{item.avatar}}" />
           </ion-avatar>
@@ -29,20 +29,6 @@
         </ion-item>
       </div>
     </div>
-
-<!--  <ion-item *ngFor="let item of onlineUsers">-->
-<!--    <div *ngIf="item.id != userId">-->
-<!--      <ion-avatar slot="start">-->
-<!--        <img src="{{item.avatar}}" />-->
-<!--      </ion-avatar>-->
-<!--      <ion-label>-->
-<!--        <h2>{{item.username}}</h2>-->
-<!--        &lt;!&ndash;      <h3>I'm a big deal</h3>&ndash;&gt;-->
-<!--        &lt;!&ndash;      <p>Listen, I've had a pretty messed up day...</p>&ndash;&gt;-->
-<!--      </ion-label>-->
-<!--    </div>-->
-
-<!--  </ion-item>-->
 
 <!--  <ion-item>-->
 <!--    <ion-avatar slot="start">-->
