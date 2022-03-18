@@ -26,4 +26,29 @@ export class UserService {
       return { ok: false, message: e };
     }
   }
+
+  public async loadConversation(data) {
+    try {
+      return await this.httpClient.post(`${this.API_URL}/load-conversation`, data).toPromise();
+    } catch (e) {
+      return { ok: false, message: e };
+    }
+  }
+
+  public async saveMessage(data) {
+    try {
+      return await this.httpClient.post(`${this.API_URL}/save-message`, data).toPromise();
+    } catch (e) {
+      return { ok: false, message: e };
+    }
+  }
+
+  getId() {
+    const id = localStorage.getItem('userId');
+    if (id != 'undefined') {
+      return id;
+    } else {
+      return null;
+    }
+  }
 }
