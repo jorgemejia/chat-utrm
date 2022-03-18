@@ -11,16 +11,16 @@
   <div class="container">
     <div class="imessage">
       <div *ngFor="let msg of messageList" >
-        <div *ngIf="msg.sender else meText">
+        <div *ngIf="msg.id === myUserId else meText">
           <p class="from-them">
-            {{msg.text}}
+            {{msg.msg}}
           </p>
         </div>
 
         <ng-template #meText>
           <div class="imessage-left">
             <p class="from-me">
-              {{msg.text}}
+              {{msg.msg}}
             </p>
           </div>
 
